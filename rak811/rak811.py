@@ -177,6 +177,14 @@ class Rak811(object):
         self._serial = Rak811Serial(**kwargs)
         self._downlink = []
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, tb):
+        if exc_type is not None:
+            traceback.print_exception(exc_type, exc_value, tb)
+        self.close()
+
     def close(self):
         """Terminates session.
 
