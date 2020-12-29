@@ -19,6 +19,7 @@ SPDX-License-Identifier: Apache-2.0
 from binascii import hexlify
 from enum import IntEnum
 from time import sleep
+import traceback
 
 from RPi import GPIO
 
@@ -180,10 +181,11 @@ class Rak811(object):
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_value, tb):
-        if exc_type is not None:
-            traceback.print_exception(exc_type, exc_value, tb)
+    def __exit__(self, etype, value, tb):
+        if etype:
+            traceback.print_exception(etype, value, tb)
         self.close()
+        return True
 
     def close(self):
         """Terminates session.
